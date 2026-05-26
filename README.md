@@ -7,3 +7,6 @@ số lượng ô tăng lên<br>
 độ chênh màu nhỏ dần<br>
 tốc độ game nhanh hơn<br>
 rất khó phân biệt bằng mắt thường.
+
+Tạo  các ô màu:
+<img width="355" height="721" alt="Image" src="https://github.com/user-attachments/assets/1bad84eb-01db-46f2-b804-4be859f6f1eb" />
