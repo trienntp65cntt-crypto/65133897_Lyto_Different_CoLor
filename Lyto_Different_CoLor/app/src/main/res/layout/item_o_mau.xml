@@ -3,10 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <com.trien.lyto_different_color.object.ImgCustom
         android:background="#D32A2A"
-        android:layout_width="50dp"
+        android:layout_width="match_parent"
         android:layout_margin="1dp"
-        android:layout_height="50dp"/>
+        android:layout_height="match_parent"/>
 
 </RelativeLayout>
