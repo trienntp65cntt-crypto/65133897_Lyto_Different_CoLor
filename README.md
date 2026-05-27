@@ -10,3 +10,6 @@ rất khó phân biệt bằng mắt thường.
 
 Tạo  các ô màu:
 <img width="355" height="721" alt="Image" src="https://github.com/user-attachments/assets/1bad84eb-01db-46f2-b804-4be859f6f1eb" />
+
+lần 4:
+<img width="276" height="514" alt="Image" src="https://github.com/user-attachments/assets/82023e61-79ed-478a-a7c7-499d02b157ed" />
