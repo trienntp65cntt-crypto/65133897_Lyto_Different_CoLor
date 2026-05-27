@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     private void taoMau(){
+        dinhNghia.layMauNgauNhien();
         arrOMau.clear();
         while (arrOMau.size() < dinhNghia.soO) {
             arrOMau.add(new OMau(dinhNghia.mauNhieu));
