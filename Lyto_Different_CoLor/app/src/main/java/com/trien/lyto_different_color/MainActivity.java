@@ -34,10 +34,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void init() {
         while (arrOMau.size() < dinhNghia.soO) {
-            arrOMau.add(new OMau("#8931A8"));
+            arrOMau.add(new OMau(dinhNghia.mauNhieu));
         }
         Random r = new Random();
-        arrOMau.get(r.nextInt(arrOMau.size())).maMau = "#B075C5";
+        arrOMau.get(r.nextInt(arrOMau.size())).maMau = dinhNghia.mauIt;
 
         adapter = new OMauAdapter(this, 0, arrOMau);
     }
