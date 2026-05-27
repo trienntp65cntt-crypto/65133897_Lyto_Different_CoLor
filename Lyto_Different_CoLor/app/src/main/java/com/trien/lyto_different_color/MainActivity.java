@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -59,6 +60,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         });
+    }
+    private void checkMau(OMau o ){
+        if(o.maMau.equals(dinhNghia.mauIt)){
+            Toast.makeText(this,"True",Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(this,"True",Toast.LENGTH_SHORT).show();
+        }
+
     }
     private void taoMau(){
         dinhNghia.layMauNgauNhien();
