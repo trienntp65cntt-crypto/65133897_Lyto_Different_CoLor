@@ -4,10 +4,11 @@
     android:layout_height="match_parent">
 
     <com.trien.lyto_different_color.object.ImgCustom
-        android:background="#D32A2A"
+        android:id="@+id/imgOMau"
+        android:tint="#D32A2A"
         android:layout_width="match_parent"
         android:layout_margin="1dp"
-
+        android:src="@drawable/tron"
         android:layout_height="match_parent"/>
 
 </RelativeLayout>

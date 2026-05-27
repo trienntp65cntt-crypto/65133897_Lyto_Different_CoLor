@@ -1,6 +1,7 @@
 package com.trien.lyto_different_color.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.trien.lyto_different_color.R;
+import com.trien.lyto_different_color.object.ImgCustom;
 import com.trien.lyto_different_color.object.OMau;
 
 import java.util.ArrayList;
@@ -31,6 +33,11 @@ public class OMauAdapter extends ArrayAdapter<OMau> {
         if(convertView==null){
             LayoutInflater inflater = (LayoutInflater)ct.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView=inflater.inflate(R.layout.item_o_mau, null);
+        }
+        if(arrOMau.size()>0){
+            OMau o = arrOMau.get(position);
+            ImgCustom imgCustom = convertView.findViewById(R.id.imgOMau);
+            imgCustom.setColorFilter(Color.parseColor(o.maMau));
         }
         return convertView;
     }

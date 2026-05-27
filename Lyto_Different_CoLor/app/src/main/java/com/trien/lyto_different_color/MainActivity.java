@@ -14,6 +14,7 @@ import com.trien.lyto_different_color.object.DinhNghia;
 import com.trien.lyto_different_color.object.OMau;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     DinhNghia dinhNghia = new DinhNghia();
@@ -33,8 +34,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void init() {
         while (arrOMau.size() < dinhNghia.soO) {
-            arrOMau.add(new OMau());
+            arrOMau.add(new OMau("#8931A8"));
         }
+        Random r = new Random();
+        arrOMau.get(r.nextInt(arrOMau.size())).maMau = "#B075C5";
+
         adapter = new OMauAdapter(this, 0, arrOMau);
     }
 
