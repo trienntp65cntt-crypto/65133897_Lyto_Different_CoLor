@@ -1,6 +1,8 @@
 package com.trien.lyto_different_color;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import androidx.activity.EdgeToEdge;
@@ -30,14 +32,11 @@ public class MainActivity extends AppCompatActivity {
         init();
         anhXa();
         setUp();
+        setClick();
     }
 
     private void init() {
-        while (arrOMau.size() < dinhNghia.soO) {
-            arrOMau.add(new OMau(dinhNghia.mauNhieu));
-        }
-        Random r = new Random();
-        arrOMau.get(r.nextInt(arrOMau.size())).maMau = dinhNghia.mauIt;
+    taoMau();
 
         adapter = new OMauAdapter(this, 0, arrOMau);
     }
@@ -49,5 +48,27 @@ public class MainActivity extends AppCompatActivity {
     private void setUp(){
         gdvLisOMau.setNumColumns(dinhNghia.soCot);
         gdvLisOMau.setAdapter(adapter);
+    }
+    private void setClick() {
+        gdvLisOMau.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                taoMau();
+                upDate();
+            }
+
+
+        });
+    }
+    private void taoMau(){
+        arrOMau.clear();
+        while (arrOMau.size() < dinhNghia.soO) {
+            arrOMau.add(new OMau(dinhNghia.mauNhieu));
+        }
+        Random r = new Random();
+        arrOMau.get(r.nextInt(arrOMau.size())).maMau = dinhNghia.mauIt;
+    }
+    private void upDate(){
+        adapter.upDate(arrOMau);
     }
 }

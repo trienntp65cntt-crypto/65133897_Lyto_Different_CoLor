@@ -26,6 +26,17 @@ public class OMauAdapter extends ArrayAdapter<OMau> {
         this.ct = context;
         this.arrOMau = new ArrayList<>(objects);
     }
+    public void upDate(ArrayList<OMau> arr ){
+        this.arrOMau.clear();
+        this.arrOMau.addAll(arr);
+        notifyDataSetChanged();
+    }
+
+
+    @Override
+    public int getCount() {
+        return arrOMau.size();
+    }
 
     @NonNull
     @Override
