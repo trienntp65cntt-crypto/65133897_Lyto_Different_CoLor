@@ -23,15 +23,33 @@ public class DinhNghia {
             "#3399CC",
             "#CC6666"
     };
-
-    public DinhNghia(){
-        soO = soCot*soCot;
-    }
+    public int level = 1;
+    public int timeTong = 10;
+    public int timeChay = timeTong * 1000;
 
     public void layMauNgauNhien(){
         Random r = new Random();
         int vt = r.nextInt(arrMauNhieu.length);
         mauNhieu = arrMauNhieu[vt];
         mauIt = arrMauIt[vt];
+    }
+
+    public void setLevel(){
+        if (level<3) {
+            soCot = 4;
+        }else if (level < 10 ){
+            soCot = 5;
+        }else if (level < 15 ){
+            soCot = 6;
+        }else if (level < 20 ){
+            soCot = 7;
+        }else if (level < 25 ){
+            soCot = 8;
+        }else if (level < 30 ){
+            soCot = 9;
+        } else {
+            soCot = 10;
+        }
+        soO = soCot*soCot;
     }
 }
