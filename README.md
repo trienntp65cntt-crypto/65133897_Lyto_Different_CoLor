@@ -13,3 +13,5 @@ Tạo  các ô màu:
 
 lần 4:
 <img width="276" height="514" alt="Image" src="https://github.com/user-attachments/assets/82023e61-79ed-478a-a7c7-499d02b157ed" />
+lần 9:
+<img width="355" height="781" alt="Image" src="https://github.com/user-attachments/assets/c0d45796-49f7-46ed-897e-039c514afec1" />
