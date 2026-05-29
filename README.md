@@ -1,4 +1,4 @@
- 🎮 Color Hunter Game
+ 🎮Lyto Different Color
  📌 Giới thiệu
 
 **Lyto Different Color** là trò chơi thử thách khả năng quan sát màu sắc của người chơi.
@@ -11,23 +11,6 @@ Nhiệm vụ của bạn là tìm ra ô có màu khác biệt trong thời gian 
 * Trên màn hình sẽ xuất hiện một lưới các hình tròn cùng màu.
 * Chỉ có **1 ô** có màu hơi khác biệt.
 * Người chơi phải tìm và chạm đúng ô đó trước khi hết thời gian.
-* Chạm đúng:
-
-  * ✅ Nhận điểm
-  * 💰 Nhận tiền thưởng
-  * ⏱️ Hoặc được cộng thêm thời gian
-
----
-
- 🚀 Độ khó tăng dần
-
-Càng lên level cao, trò chơi càng khó hơn:
-
-* 🔺 Số lượng ô tăng lên
-* 🎨 Độ chênh lệch màu nhỏ dần
-* ⚡ Tốc độ game nhanh hơn
-* 👀 Khó phân biệt bằng mắt thường
-
 ---
 
 🎯 Tính năng nổi bật
