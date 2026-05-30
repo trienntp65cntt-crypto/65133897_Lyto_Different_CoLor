@@ -5,6 +5,7 @@ import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,12 +25,13 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
     DinhNghia dinhNghia = new DinhNghia();
     ArrayList<OMau> arrOMau = new ArrayList<>();
-
     GridView gdvLisOMau;
     OMauAdapter adapter;
     TextView txvLevel;
     TextView txvTime;
     CountDownTimer demnguoc;
+    ImageView imgIcon;
+    int iconnhay = R.drawable.icon1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +53,7 @@ public class MainActivity extends AppCompatActivity {
         gdvLisOMau = findViewById(R.id.gdvLisOMau);
         txvLevel = findViewById(R.id.txvLevel);
         txvTime = findViewById(R.id.txvTime);
-
-
+        imgIcon = findViewById(R.id.imgIcon);
     }
 
     private void setUp(){
@@ -60,7 +61,25 @@ public class MainActivity extends AppCompatActivity {
         gdvLisOMau.setAdapter(adapter);
         txvLevel.setText(""+dinhNghia.level);
         upDateTime();
+        new CountDownTimer(2000,400){
+            @Override
+            public void onFinish() {
+                if (dinhNghia.hetGame == false) {
+                    start();
+                }
+            }
+            @Override
+            public void onTick(long millisUntilFinished) {
+                if (iconnhay == R.drawable.icon2){
+                    iconnhay = R.drawable.icon1;
+                }else {
+                    iconnhay = R.drawable.icon2;
+                }
+                imgIcon.setImageResource(iconnhay);
+            }
+        }.start();
     }
+
     private void setClick() {
         gdvLisOMau.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -69,19 +88,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     private void checkMau(OMau o ){
         if(o.maMau.equals(dinhNghia.mauIt)){
             dinhNghia.level++;
             taoMau();
             upDate();
-            dinhNghia.timeChay = dinhNghia.timeChay + 1000;
+            dinhNghia.timeChay = dinhNghia.timeChay + dinhNghia.timeCong;
             demnguoc.cancel();
             upDateTime();
         }else {
             Toast.makeText(this,"false",Toast.LENGTH_SHORT).show();
         }
-
     }
+
     private void taoMau(){
         dinhNghia.setLevel();
         dinhNghia.layMauNgauNhien();
@@ -92,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
         Random r = new Random();
         arrOMau.get(r.nextInt(arrOMau.size())).maMau = dinhNghia.mauIt;
     }
+
     private void upDate(){
         adapter.upDate(arrOMau);
         gdvLisOMau.setNumColumns(dinhNghia.soCot);
@@ -100,9 +121,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void upDateTime(){
         demnguoc =  new CountDownTimer(dinhNghia.timeChay,1){
-
-
-
             @Override
             public void onTick(long millisUntilFinished) {
                 dinhNghia.timeChay = (int) millisUntilFinished;
@@ -123,7 +141,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }.start();
     }
+
     private void hetGio(){
+        dinhNghia.hetGame = true;
         gdvLisOMau.setOnItemClickListener(null);
     }
 }

@@ -26,6 +26,9 @@ public class DinhNghia {
     public int level = 1;
     public int timeTong = 10;
     public int timeChay = timeTong * 1000;
+    public int timeCong = 100;
+
+    public boolean hetGame = false;
 
     public void layMauNgauNhien(){
         Random r = new Random();
