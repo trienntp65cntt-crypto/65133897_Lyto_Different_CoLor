@@ -1,4 +1,4 @@
-package com.trien.lyto_different_color;
+package com.trien.lyto_different_color; // Nhớ đổi lại tên package nếu em đã đổi
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,12 +6,16 @@ import android.os.CountDownTimer;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Vibrator;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.graphics.Color;
 import android.graphics.Typeface;
 
@@ -31,14 +35,18 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<OMau> arrOMau = new ArrayList<>();
     GridView gdvLisOMau;
     OMauAdapter adapter;
-    TextView txvLevel;
-    TextView txvTime;
+    TextView txvLevel, txvTime, txvCoin, tvTouchToStart;
     CountDownTimer demnguoc;
-    ImageView imgIcon;
+    ImageView imgIcon, btnPause;
     int iconnhay = R.drawable.icon1;
-    TextView txvCoin;
     InForNguoiChoi nguoiChoi;
-    TextView tvTouchToStart;
+
+    LinearLayout layoutPauseMenu;
+    Button btnResume, btnToggleSound;
+    boolean isSoundOn = true;
+    SharedPreferences sharedPreferences;
+    MediaPlayer bgmPlayer;
+    Toast toastThongBao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +63,10 @@ public class MainActivity extends AppCompatActivity {
         nguoiChoi.getData();
         taoMau();
         adapter = new OMauAdapter(this, 0, arrOMau);
+        sharedPreferences = getSharedPreferences("CaiDatGame", MODE_PRIVATE);
+        isSoundOn = sharedPreferences.getBoolean("sound", true);
+
+        setupNhacNen();
     }
 
     private void anhXa(){
@@ -64,58 +76,73 @@ public class MainActivity extends AppCompatActivity {
         imgIcon = findViewById(R.id.imgIcon);
         txvCoin = findViewById(R.id.txvCoin);
         tvTouchToStart = findViewById(R.id.tvTouchToStart);
+        btnPause = findViewById(R.id.btnPause);
+        layoutPauseMenu = findViewById(R.id.layoutPauseMenu);
+        btnResume = findViewById(R.id.btnResume);
+        btnToggleSound = findViewById(R.id.btnToggleSound);
     }
 
     private void setUp(){
-        int soGiay = dinhNghia.timeChay / 1000;
-        int miliGiay = (dinhNghia.timeChay % 1000) / 10;
-        txvTime.setText(soGiay + ":" + (miliGiay < 10 ? "0" + miliGiay : miliGiay));
+        updateTimeUI(dinhNghia.timeChay);
         txvCoin.setText(""+nguoiChoi.tienNguoiChoi);
         gdvLisOMau.setNumColumns(dinhNghia.soCot);
         gdvLisOMau.setAdapter(adapter);
         txvLevel.setText(""+dinhNghia.level);
+        btnToggleSound.setText(isSoundOn ? "ÂM THANH: BẬT" : "ÂM THANH: TẮT");
+
         new CountDownTimer(2000,400){
             @Override
-            public void onFinish() {
-                if (dinhNghia.hetGame == false) {
-                    start();
-                }
-            }
+            public void onFinish() { if (!dinhNghia.hetGame) start(); }
             @Override
             public void onTick(long millisUntilFinished) {
-                if (iconnhay == R.drawable.icon2){
-                    iconnhay = R.drawable.icon1;
-                }else {
-                    iconnhay = R.drawable.icon2;
-                }
+                iconnhay = (iconnhay == R.drawable.icon2) ? R.drawable.icon1 : R.drawable.icon2;
                 imgIcon.setImageResource(iconnhay);
             }
         }.start();
     }
 
     private void setClick() {
-        tvTouchToStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tvTouchToStart.setVisibility(View.GONE);
-                upDateTime();
-                gdvLisOMau.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        // TRUYỀN BIẾN view VÀO HÀM checkMau
-                        checkMau(arrOMau.get(i), view);
-                    }
-                });
+        tvTouchToStart.setOnClickListener(v -> {
+            tvTouchToStart.setVisibility(View.GONE);
+            upDateTime();
+            gdvLisOMau.setOnItemClickListener((parent, view, position, id) ->
+                    checkMau(arrOMau.get(position), view)
+            );
+        });
+
+        // Xử lý nút Menu Pause
+        btnPause.setOnClickListener(v -> {
+            if (demnguoc != null) demnguoc.cancel();
+            layoutPauseMenu.setVisibility(View.VISIBLE);
+            gdvLisOMau.setEnabled(false);
+            if (bgmPlayer != null && bgmPlayer.isPlaying()) bgmPlayer.pause();
+        });
+
+        btnResume.setOnClickListener(v -> {
+            layoutPauseMenu.setVisibility(View.GONE);
+            gdvLisOMau.setEnabled(true);
+            upDateTime();
+            if (isSoundOn && bgmPlayer != null && !bgmPlayer.isPlaying()) bgmPlayer.start();
+        });
+
+        btnToggleSound.setOnClickListener(v -> {
+            isSoundOn = !isSoundOn;
+            btnToggleSound.setText(isSoundOn ? "ÂM THANH: BẬT" : "ÂM THANH: TẮT");
+            sharedPreferences.edit().putBoolean("sound", isSoundOn).apply();
+
+            if (isSoundOn) {
+                if (bgmPlayer != null && !bgmPlayer.isPlaying()) bgmPlayer.start();
+            } else {
+                if (bgmPlayer != null && bgmPlayer.isPlaying()) bgmPlayer.pause();
             }
         });
     }
 
-    // NHẬN THÊM THAM SỐ viewClick ĐỂ BIẾT VỊ TRÍ CHẠM
-    private void checkMau(OMau o, View viewClick){
+    private void checkMau(OMau o, View viewClick ){
         if(o.maMau.equals(dinhNghia.mauIt)){
-            // GỌI 2 HIỆU ỨNG TẠI ĐÂY
             hieuUngCongTien(viewClick);
             hieuUngNhayLevel();
+            phatAmThanh(R.raw.tieng_dung);
 
             dinhNghia.level++;
             taoMau();
@@ -123,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
             dinhNghia.timeChay = dinhNghia.timeChay + dinhNghia.timeCong;
             demnguoc.cancel();
             upDateTime();
-            nguoiChoi.tienNguoiChoi = nguoiChoi.tienNguoiChoi + 2;
+            nguoiChoi.tienNguoiChoi += 2;
             txvCoin.setText(""+nguoiChoi.tienNguoiChoi);
             nguoiChoi.setData();
         }else {
@@ -133,12 +160,26 @@ public class MainActivity extends AppCompatActivity {
 
     private void taoMau(){
         dinhNghia.setLevel();
-        dinhNghia.layMauNgauNhien();
+
+        Random r = new Random();
+        int red = r.nextInt(180) + 20;
+        int green = r.nextInt(180) + 20;
+        int blue = r.nextInt(180) + 20;
+
+        int delta = 60 - (dinhNghia.level * 2);
+        if (delta < 5) delta = 5;
+
+        dinhNghia.mauNhieu = String.format("#%02X%02X%02X", red, green, blue);
+
+        int redIt = Math.min(red + delta, 255);
+        int greenIt = Math.min(green + delta, 255);
+        int blueIt = Math.min(blue + delta, 255);
+        dinhNghia.mauIt = String.format("#%02X%02X%02X", redIt, greenIt, blueIt);
+
         arrOMau.clear();
         while (arrOMau.size() < dinhNghia.soO) {
             arrOMau.add(new OMau(dinhNghia.mauNhieu));
         }
-        Random r = new Random();
         arrOMau.get(r.nextInt(arrOMau.size())).maMau = dinhNghia.mauIt;
     }
 
@@ -149,46 +190,58 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void upDateTime(){
-        demnguoc =  new CountDownTimer(dinhNghia.timeChay,1){
+        demnguoc =  new CountDownTimer(dinhNghia.timeChay, 20){
             @Override
             public void onTick(long millisUntilFinished) {
                 dinhNghia.timeChay = (int) millisUntilFinished;
-                if (dinhNghia.timeChay != 0 ) {
-                    int soGiay = dinhNghia.timeChay / 1000;
-                    int miliGiay = dinhNghia.timeChay % 1000/10;
-                    String times = soGiay + ":" + miliGiay;
-                    txvTime.setText(times);
-                }else {
-                    txvTime.setText("00:00");
-                }
+                updateTimeUI(dinhNghia.timeChay);
             }
             @Override
             public void onFinish() {
                 txvTime.setText("00:00");
-
                 hetGio();
             }
         }.start();
     }
 
+    private void updateTimeUI(int timeLeftMs) {
+        if (timeLeftMs > 0 ) {
+            int soGiay = timeLeftMs / 1000;
+            int miliGiay = (timeLeftMs % 1000) / 10;
+            String miliStr = (miliGiay < 10) ? "0" + miliGiay : "" + miliGiay;
+            txvTime.setText(soGiay + ":" + miliStr);
+        } else {
+            txvTime.setText("00:00");
+        }
+    }
+
     private void hetGio(){
         dinhNghia.hetGame = true;
         gdvLisOMau.setOnItemClickListener(null);
-
         Intent intent = new Intent(this,KetThucActivity.class);
         intent.putExtra("level",dinhNghia.level);
         startActivity(intent);
         finish();
     }
 
-    private void rungDienThoai() {
-        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        if (vibrator != null) {
-            vibrator.vibrate(300);
-        }
+    private void setupNhacNen() {
+        bgmPlayer = MediaPlayer.create(this, R.raw.nhac_nen);
+        bgmPlayer.setLooping(true);
+        if (isSoundOn) bgmPlayer.start();
     }
 
-    // --- CÁC HÀM XỬ LÝ HIỆU ỨNG (ANIMATIONS) ---
+    private void phatAmThanh(int idAmThanh) {
+        if (!isSoundOn) return;
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, idAmThanh);
+        mediaPlayer.start();
+        mediaPlayer.setOnCompletionListener(mp -> mp.release());
+    }
+
+    private void rungDienThoai() {
+        if (!isSoundOn) return;
+        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        if (vibrator != null) vibrator.vibrate(300);
+    }
 
     private void hieuUngCongTien(View viewXuatPhat) {
         final TextView tvPlus = new TextView(this);
@@ -197,41 +250,43 @@ public class MainActivity extends AppCompatActivity {
         tvPlus.setTextSize(25);
         tvPlus.setTypeface(null, Typeface.BOLD);
 
-        // Thêm TextView vào View cha (bọc ngoài GridView)
         final ViewGroup root = (ViewGroup) gdvLisOMau.getParent();
         root.addView(tvPlus);
-
-        // Tính toán tọa độ xuất hiện dựa trên ô màu được chạm
         tvPlus.setX(gdvLisOMau.getX() + viewXuatPhat.getX() + viewXuatPhat.getWidth() / 3);
         tvPlus.setY(gdvLisOMau.getY() + viewXuatPhat.getY());
 
-        // Hiệu ứng bay lên và mờ dần
         tvPlus.animate()
-                .translationYBy(-150)
-                .alpha(0)
-                .setDuration(800)
-                .withEndAction(new Runnable() {
-                    @Override
-                    public void run() {
-                        root.removeView(tvPlus); // Giải phóng bộ nhớ
-                    }
-                }).start();
+                .translationYBy(-150).alpha(0).setDuration(800)
+                .withEndAction(() -> root.removeView(tvPlus)).start();
     }
 
     private void hieuUngNhayLevel() {
-        txvLevel.animate()
-                .scaleX(1.3f)
-                .scaleY(1.3f)
-                .setDuration(150)
-                .withEndAction(new Runnable() {
-                    @Override
-                    public void run() {
-                        txvLevel.animate()
-                                .scaleX(1.0f)
-                                .scaleY(1.0f)
-                                .setDuration(150)
-                                .start();
-                    }
-                }).start();
+        txvLevel.animate().scaleX(1.3f).scaleY(1.3f).setDuration(150)
+                .withEndAction(() ->
+                        txvLevel.animate().scaleX(1.0f).scaleY(1.0f).setDuration(150).start()
+                ).start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (bgmPlayer != null && bgmPlayer.isPlaying()) bgmPlayer.pause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isSoundOn && layoutPauseMenu.getVisibility() == View.GONE) {
+            if (bgmPlayer != null && !bgmPlayer.isPlaying()) bgmPlayer.start();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (bgmPlayer != null) {
+            bgmPlayer.release();
+            bgmPlayer = null;
+        }
     }
 }
