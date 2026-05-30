@@ -160,26 +160,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void taoMau(){
         dinhNghia.setLevel();
-
-        Random r = new Random();
-        int red = r.nextInt(180) + 20;
-        int green = r.nextInt(180) + 20;
-        int blue = r.nextInt(180) + 20;
-
-        int delta = 60 - (dinhNghia.level * 2);
-        if (delta < 5) delta = 5;
-
-        dinhNghia.mauNhieu = String.format("#%02X%02X%02X", red, green, blue);
-
-        int redIt = Math.min(red + delta, 255);
-        int greenIt = Math.min(green + delta, 255);
-        int blueIt = Math.min(blue + delta, 255);
-        dinhNghia.mauIt = String.format("#%02X%02X%02X", redIt, greenIt, blueIt);
-
+        dinhNghia.layMauNgauNhien();
         arrOMau.clear();
         while (arrOMau.size() < dinhNghia.soO) {
             arrOMau.add(new OMau(dinhNghia.mauNhieu));
         }
+        Random r = new Random();
         arrOMau.get(r.nextInt(arrOMau.size())).maMau = dinhNghia.mauIt;
     }
 

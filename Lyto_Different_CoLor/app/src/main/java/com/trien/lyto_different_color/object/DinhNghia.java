@@ -9,9 +9,9 @@ public class DinhNghia {
     public String mauIt ="#FF33CC";
 
     public int level = 1;
-    public int timeTong = 30;
+    public int timeTong = 40;
     public int timeChay = timeTong * 1000;
-    public int timeCong = 100;
+    public int timeCong = 500;
 
     public boolean hetGame = false;
 
@@ -21,7 +21,7 @@ public class DinhNghia {
         int green = r.nextInt(180) + 20;
         int blue = r.nextInt(180) + 20;
 
-        int delta = 60 - (level * 2);
+        int delta = 70 - (level * 2);
         if (delta < 5) {
             delta = 5;
         }
