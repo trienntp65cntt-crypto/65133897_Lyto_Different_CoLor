@@ -18,6 +18,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.trien.lyto_different_color.adapter.OMauAdapter;
 import com.trien.lyto_different_color.dilog.KetThucGameDilog;
 import com.trien.lyto_different_color.object.DinhNghia;
+import com.trien.lyto_different_color.object.InForNguoiChoi;
 import com.trien.lyto_different_color.object.OMau;
 
 import java.util.ArrayList;
@@ -33,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     CountDownTimer demnguoc;
     ImageView imgIcon;
     int iconnhay = R.drawable.icon1;
+    TextView txvCoin;
+    InForNguoiChoi nguoiChoi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
+        nguoiChoi = new InForNguoiChoi();
     taoMau();
 
         adapter = new OMauAdapter(this, 0, arrOMau);
@@ -55,9 +59,11 @@ public class MainActivity extends AppCompatActivity {
         txvLevel = findViewById(R.id.txvLevel);
         txvTime = findViewById(R.id.txvTime);
         imgIcon = findViewById(R.id.imgIcon);
+        txvCoin = findViewById(R.id.txvCoin);
     }
 
     private void setUp(){
+        txvCoin.setText(""+nguoiChoi.tienNguoiChoi);
         gdvLisOMau.setNumColumns(dinhNghia.soCot);
         gdvLisOMau.setAdapter(adapter);
         txvLevel.setText(""+dinhNghia.level);
@@ -92,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkMau(OMau o ){
         if(o.maMau.equals(dinhNghia.mauIt)){
+            nguoiChoi.tienNguoiChoi = nguoiChoi.tienNguoiChoi + 2;
+            txvCoin.setText(""+nguoiChoi.tienNguoiChoi);
             dinhNghia.level++;
             taoMau();
             upDate();

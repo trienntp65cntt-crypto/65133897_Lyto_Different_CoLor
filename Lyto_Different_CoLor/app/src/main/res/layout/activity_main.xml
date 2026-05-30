@@ -8,7 +8,36 @@
     android:orientation="vertical"
     android:background="#292234"
     tools:context=".MainActivity">
-    
+
+    <LinearLayout
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+        <RelativeLayout
+            android:layout_width="120dp"
+            android:layout_height="40dp">
+            <TextView
+                android:id="@+id/txvCoin"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:gravity="center_vertical|right"
+                android:textColor="#E7E0E4"
+                android:background="@drawable/bg_txv_coin"
+                android:layout_centerInParent="true"
+                android:textSize="14sp"
+                android:paddingRight="10dp"
+                android:text="1"
+                android:textAllCaps="true" />
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/coin"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -89,12 +118,14 @@
         </LinearLayout>
 
     </LinearLayout>
+
     
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
+
 
     <GridView
         android:id="@+id/gdvLisOMau"
