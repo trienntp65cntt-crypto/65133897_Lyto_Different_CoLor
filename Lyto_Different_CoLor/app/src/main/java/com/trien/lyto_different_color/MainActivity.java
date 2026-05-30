@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
             dinhNghia.timeChay = dinhNghia.timeChay + dinhNghia.timeCong;
             demnguoc.cancel();
             upDateTime();
-            nguoiChoi.tienNguoiChoi += 2;
+            nguoiChoi.tienNguoiChoi += 5;
             txvCoin.setText(""+nguoiChoi.tienNguoiChoi);
             nguoiChoi.setData();
         }else {
@@ -274,7 +274,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void suDungKinhLup() {
 
-        if (nguoiChoi.tienNguoiChoi < 150) {
+        if (nguoiChoi.tienNguoiChoi < 100) {
             Toast.makeText(this, "Không đủ tiền mua Kính Lúp!", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -287,7 +287,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         if (viTriO_Dung != -1) {
-            nguoiChoi.tienNguoiChoi -= 150;
+            nguoiChoi.tienNguoiChoi -= 100;
             txvCoin.setText("" + nguoiChoi.tienNguoiChoi);
             nguoiChoi.setData();
 
