@@ -1,5 +1,6 @@
 package com.trien.lyto_different_color;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -156,6 +157,11 @@ public class MainActivity extends AppCompatActivity {
     private void hetGio(){
         dinhNghia.hetGame = true;
         gdvLisOMau.setOnItemClickListener(null);
-        new KetThucGameDilog(this,dinhNghia.level).show();
+
+        Intent intent = new Intent(this,KetThucActivity.class);
+        intent.putExtra("level",dinhNghia.level);
+        startActivity(intent);
+        finish();
+       // new KetThucGameDilog(this,dinhNghia.level).show();
     }
 }

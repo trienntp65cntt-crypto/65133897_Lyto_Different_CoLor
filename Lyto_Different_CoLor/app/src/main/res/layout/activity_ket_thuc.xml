@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#292234"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="#E56BA6"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:padding="8dp"
+        android:text=" CHÚC MỪNG BẠN ĐẠT ĐƯỢC "
+        android:textAllCaps="true" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp">
+        <ImageView
+            android:id="@+id/imgIcon"
+            android:src="@drawable/icon1"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="#E56BA6"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:padding="5dp"
+            android:text="Level"
+            android:textAllCaps="true" />
+        <TextView
+            android:id="@+id/txvLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="#E7E0E4"
+            android:textSize="20dp"
+            android:padding="5dp"
+            android:text="1"
+            android:textAllCaps="true" />
+    </LinearLayout>
+    <TextView
+        android:onClick="choiLai"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:background="@drawable/bg_txv_coin"
+        android:gravity="center"
+        android:textColor="#E7E0E4"
+        android:textSize="20dp"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:text="CHƠI LẠI " />
+    <TextView
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:background="@drawable/bg_txv_coin"
+        android:gravity="center"
+        android:textColor="#E7E0E4"
+        android:textSize="20dp"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:text="THOÁT" />
+</LinearLayout>

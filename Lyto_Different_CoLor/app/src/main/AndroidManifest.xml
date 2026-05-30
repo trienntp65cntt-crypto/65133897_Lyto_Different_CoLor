@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Lyto_Different_CoLor">
         <activity
+            android:name=".KetThucActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
