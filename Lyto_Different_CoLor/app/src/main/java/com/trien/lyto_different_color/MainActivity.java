@@ -16,6 +16,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.trien.lyto_different_color.adapter.OMauAdapter;
+import com.trien.lyto_different_color.dilog.KetThucGameDilog;
 import com.trien.lyto_different_color.object.DinhNghia;
 import com.trien.lyto_different_color.object.OMau;
 
@@ -145,5 +146,6 @@ public class MainActivity extends AppCompatActivity {
     private void hetGio(){
         dinhNghia.hetGame = true;
         gdvLisOMau.setOnItemClickListener(null);
+        new KetThucGameDilog(this,dinhNghia.level).show();
     }
 }
