@@ -98,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkMau(OMau o ){
         if(o.maMau.equals(dinhNghia.mauIt)){
-            txvCoin.setText(""+nguoiChoi.tienNguoiChoi);
             dinhNghia.level++;
             taoMau();
             upDate();
