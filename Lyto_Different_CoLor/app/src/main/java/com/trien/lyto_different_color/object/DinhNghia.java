@@ -12,7 +12,13 @@ public class DinhNghia {
             "#33CCFF",
             "#FF99FF",
             "#3399FF",
-            "#CC6699"
+            "#CC6699",
+            "#3300CC",
+            "#993300",
+            "#FF9933",
+            "#CC0066",
+            "#660099",
+            "#333300",
 
     };
 
@@ -21,10 +27,16 @@ public class DinhNghia {
             "#33CCCC",
             "#FF99CC",
             "#3399CC",
-            "#CC6666"
+            "#CC6666",
+            "#3300FF",
+            "#993333",
+            "#FF9900",
+            "#CC0099",
+            "#6600CC",
+            "#333333",
     };
     public int level = 1;
-    public int timeTong = 5;
+    public int timeTong = 30;
     public int timeChay = timeTong * 1000;
     public int timeCong = 100;
 

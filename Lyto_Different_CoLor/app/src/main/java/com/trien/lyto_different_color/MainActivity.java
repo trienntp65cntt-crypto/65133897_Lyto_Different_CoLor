@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Vibrator;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,7 +25,6 @@ import com.trien.lyto_different_color.object.OMau;
 
 import java.util.ArrayList;
 import java.util.Random;
-
 
 public class MainActivity extends AppCompatActivity {
     DinhNghia dinhNghia = new DinhNghia();
@@ -100,15 +102,21 @@ public class MainActivity extends AppCompatActivity {
                 gdvLisOMau.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        checkMau(arrOMau.get(i));
+                        // TRUYỀN BIẾN view VÀO HÀM checkMau
+                        checkMau(arrOMau.get(i), view);
                     }
                 });
             }
         });
     }
 
-    private void checkMau(OMau o ){
+    // NHẬN THÊM THAM SỐ viewClick ĐỂ BIẾT VỊ TRÍ CHẠM
+    private void checkMau(OMau o, View viewClick){
         if(o.maMau.equals(dinhNghia.mauIt)){
+            // GỌI 2 HIỆU ỨNG TẠI ĐÂY
+            hieuUngCongTien(viewClick);
+            hieuUngNhayLevel();
+
             dinhNghia.level++;
             taoMau();
             upDate();
@@ -172,10 +180,58 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
     private void rungDienThoai() {
         Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         if (vibrator != null) {
             vibrator.vibrate(300);
         }
+    }
+
+    // --- CÁC HÀM XỬ LÝ HIỆU ỨNG (ANIMATIONS) ---
+
+    private void hieuUngCongTien(View viewXuatPhat) {
+        final TextView tvPlus = new TextView(this);
+        tvPlus.setText("+2");
+        tvPlus.setTextColor(Color.YELLOW);
+        tvPlus.setTextSize(25);
+        tvPlus.setTypeface(null, Typeface.BOLD);
+
+        // Thêm TextView vào View cha (bọc ngoài GridView)
+        final ViewGroup root = (ViewGroup) gdvLisOMau.getParent();
+        root.addView(tvPlus);
+
+        // Tính toán tọa độ xuất hiện dựa trên ô màu được chạm
+        tvPlus.setX(gdvLisOMau.getX() + viewXuatPhat.getX() + viewXuatPhat.getWidth() / 3);
+        tvPlus.setY(gdvLisOMau.getY() + viewXuatPhat.getY());
+
+        // Hiệu ứng bay lên và mờ dần
+        tvPlus.animate()
+                .translationYBy(-150)
+                .alpha(0)
+                .setDuration(800)
+                .withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        root.removeView(tvPlus); // Giải phóng bộ nhớ
+                    }
+                }).start();
+    }
+
+    private void hieuUngNhayLevel() {
+        txvLevel.animate()
+                .scaleX(1.3f)
+                .scaleY(1.3f)
+                .setDuration(150)
+                .withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        txvLevel.animate()
+                                .scaleX(1.0f)
+                                .scaleY(1.0f)
+                                .setDuration(150)
+                                .start();
+                    }
+                }).start();
     }
 }
