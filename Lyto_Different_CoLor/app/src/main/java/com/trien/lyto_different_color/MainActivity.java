@@ -1,4 +1,4 @@
-package com.trien.lyto_different_color; // Nhớ đổi lại tên package nếu em đã đổi
+package com.trien.lyto_different_color;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     boolean isSoundOn = true;
     SharedPreferences sharedPreferences;
     MediaPlayer bgmPlayer;
-    Toast toastThongBao;
+    LinearLayout btnKinhLup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
 
         setupNhacNen();
     }
-
     private void anhXa(){
         gdvLisOMau = findViewById(R.id.gdvLisOMau);
         txvLevel = findViewById(R.id.txvLevel);
@@ -80,8 +79,8 @@ public class MainActivity extends AppCompatActivity {
         layoutPauseMenu = findViewById(R.id.layoutPauseMenu);
         btnResume = findViewById(R.id.btnResume);
         btnToggleSound = findViewById(R.id.btnToggleSound);
+        btnKinhLup = findViewById(R.id.btnKinhLup);
     }
-
     private void setUp(){
         updateTimeUI(dinhNghia.timeChay);
         txvCoin.setText(""+nguoiChoi.tienNguoiChoi);
@@ -110,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
             );
         });
 
-        // Xử lý nút Menu Pause
         btnPause.setOnClickListener(v -> {
             if (demnguoc != null) demnguoc.cancel();
             layoutPauseMenu.setVisibility(View.VISIBLE);
@@ -134,6 +132,14 @@ public class MainActivity extends AppCompatActivity {
                 if (bgmPlayer != null && !bgmPlayer.isPlaying()) bgmPlayer.start();
             } else {
                 if (bgmPlayer != null && bgmPlayer.isPlaying()) bgmPlayer.pause();
+            }
+        });
+        btnKinhLup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (tvTouchToStart.getVisibility() == View.GONE) {
+                    suDungKinhLup();
+                }
             }
         });
     }
@@ -168,13 +174,11 @@ public class MainActivity extends AppCompatActivity {
         Random r = new Random();
         arrOMau.get(r.nextInt(arrOMau.size())).maMau = dinhNghia.mauIt;
     }
-
     private void upDate(){
         adapter.upDate(arrOMau);
         gdvLisOMau.setNumColumns(dinhNghia.soCot);
         txvLevel.setText(""+dinhNghia.level);
     }
-
     private void upDateTime(){
         demnguoc =  new CountDownTimer(dinhNghia.timeChay, 20){
             @Override
@@ -189,7 +193,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }.start();
     }
-
     private void updateTimeUI(int timeLeftMs) {
         if (timeLeftMs > 0 ) {
             int soGiay = timeLeftMs / 1000;
@@ -209,20 +212,17 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
     private void setupNhacNen() {
         bgmPlayer = MediaPlayer.create(this, R.raw.nhac_nen);
         bgmPlayer.setLooping(true);
         if (isSoundOn) bgmPlayer.start();
     }
-
     private void phatAmThanh(int idAmThanh) {
         if (!isSoundOn) return;
         MediaPlayer mediaPlayer = MediaPlayer.create(this, idAmThanh);
         mediaPlayer.start();
         mediaPlayer.setOnCompletionListener(mp -> mp.release());
     }
-
     private void rungDienThoai() {
         if (!isSoundOn) return;
         Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -252,13 +252,11 @@ public class MainActivity extends AppCompatActivity {
                         txvLevel.animate().scaleX(1.0f).scaleY(1.0f).setDuration(150).start()
                 ).start();
     }
-
     @Override
     protected void onPause() {
         super.onPause();
         if (bgmPlayer != null && bgmPlayer.isPlaying()) bgmPlayer.pause();
     }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -266,13 +264,43 @@ public class MainActivity extends AppCompatActivity {
             if (bgmPlayer != null && !bgmPlayer.isPlaying()) bgmPlayer.start();
         }
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         if (bgmPlayer != null) {
             bgmPlayer.release();
             bgmPlayer = null;
+        }
+    }
+    private void suDungKinhLup() {
+
+        if (nguoiChoi.tienNguoiChoi < 150) {
+            Toast.makeText(this, "Không đủ tiền mua Kính Lúp!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        int viTriO_Dung = -1;
+        for (int i = 0; i < arrOMau.size(); i++) {
+            if (arrOMau.get(i).maMau.equals(dinhNghia.mauIt)) {
+                viTriO_Dung = i;
+                break;
+            }
+        }
+        if (viTriO_Dung != -1) {
+            nguoiChoi.tienNguoiChoi -= 150;
+            txvCoin.setText("" + nguoiChoi.tienNguoiChoi);
+            nguoiChoi.setData();
+
+            View targetView = gdvLisOMau.getChildAt(viTriO_Dung);
+            if (targetView != null) {
+                targetView.animate().alpha(0.1f).setDuration(150)
+                        .withEndAction(() -> targetView.animate().alpha(1.0f).setDuration(150)
+                                .withEndAction(() -> targetView.animate().alpha(0.1f).setDuration(150)
+                                        .withEndAction(() -> targetView.animate().alpha(1.0f).setDuration(150).start()
+                                        ).start()
+                                ).start()
+                        ).start();
+            }
         }
     }
 }
