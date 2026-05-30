@@ -51,4 +51,8 @@ public class KetThucActivity extends AppCompatActivity {
             finish();
         }
 
+        public void thoatGame(View view){
+        finish();
+        }
+
 }

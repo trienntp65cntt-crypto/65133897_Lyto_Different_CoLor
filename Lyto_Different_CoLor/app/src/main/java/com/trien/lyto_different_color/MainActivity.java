@@ -10,11 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.trien.lyto_different_color.adapter.OMauAdapter;
 import com.trien.lyto_different_color.dilog.KetThucGameDilog;
@@ -37,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     int iconnhay = R.drawable.icon1;
     TextView txvCoin;
     InForNguoiChoi nguoiChoi;
+    TextView tvTouchToStart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,14 +58,17 @@ public class MainActivity extends AppCompatActivity {
         txvTime = findViewById(R.id.txvTime);
         imgIcon = findViewById(R.id.imgIcon);
         txvCoin = findViewById(R.id.txvCoin);
+        tvTouchToStart = findViewById(R.id.tvTouchToStart);
     }
 
     private void setUp(){
+        int soGiay = dinhNghia.timeChay / 1000;
+        int miliGiay = (dinhNghia.timeChay % 1000) / 10;
+        txvTime.setText(soGiay + ":" + (miliGiay < 10 ? "0" + miliGiay : miliGiay));
         txvCoin.setText(""+nguoiChoi.tienNguoiChoi);
         gdvLisOMau.setNumColumns(dinhNghia.soCot);
         gdvLisOMau.setAdapter(adapter);
         txvLevel.setText(""+dinhNghia.level);
-        upDateTime();
         new CountDownTimer(2000,400){
             @Override
             public void onFinish() {
@@ -89,10 +89,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setClick() {
-        gdvLisOMau.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        tvTouchToStart.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                checkMau(arrOMau.get(i));
+            public void onClick(View v) {
+                tvTouchToStart.setVisibility(View.GONE);
+                upDateTime();
+                gdvLisOMau.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        checkMau(arrOMau.get(i));
+                    }
+                });
             }
         });
     }
@@ -105,12 +112,11 @@ public class MainActivity extends AppCompatActivity {
             dinhNghia.timeChay = dinhNghia.timeChay + dinhNghia.timeCong;
             demnguoc.cancel();
             upDateTime();
-
             nguoiChoi.tienNguoiChoi = nguoiChoi.tienNguoiChoi + 2;
             txvCoin.setText(""+nguoiChoi.tienNguoiChoi);
             nguoiChoi.setData();
         }else {
-            Toast.makeText(this,"false",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"lêu lêu ",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -162,6 +168,5 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("level",dinhNghia.level);
         startActivity(intent);
         finish();
-       // new KetThucGameDilog(this,dinhNghia.level).show();
     }
 }

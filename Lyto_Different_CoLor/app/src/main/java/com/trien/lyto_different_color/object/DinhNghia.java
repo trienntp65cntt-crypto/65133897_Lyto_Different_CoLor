@@ -24,7 +24,7 @@ public class DinhNghia {
             "#CC6666"
     };
     public int level = 1;
-    public int timeTong = 10;
+    public int timeTong = 5;
     public int timeChay = timeTong * 1000;
     public int timeCong = 100;
 
@@ -39,19 +39,31 @@ public class DinhNghia {
 
     public void setLevel(){
         if (level<3) {
-            soCot = 4;
+            soCot = 2;
         }else if (level < 10 ){
-            soCot = 5;
+            soCot = 3;
         }else if (level < 15 ){
-            soCot = 6;
+            soCot = 4;
         }else if (level < 20 ){
-            soCot = 7;
+            soCot = 5;
         }else if (level < 25 ){
-            soCot = 8;
+            soCot = 6;
         }else if (level < 30 ){
+            soCot = 7;
+        }else if (level < 35 ){
+            soCot = 8;
+        }else if (level < 40 ){
             soCot = 9;
-        } else {
+        }else if (level < 45 ){
             soCot = 10;
+        }else if (level < 50 ){
+            soCot = 11;
+        }else if (level < 55 ){
+            soCot = 12;
+        }else if (level < 60 ){
+            soCot = 13;
+        } else {
+            soCot = 18;
         }
         soO = soCot*soCot;
     }

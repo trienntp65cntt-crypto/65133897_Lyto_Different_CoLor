@@ -67,6 +67,7 @@
         android:padding="5dp"
         android:text="CHƠI LẠI " />
     <TextView
+        android:onClick="thoatGame"
         android:layout_width="120dp"
         android:layout_height="40dp"
         android:background="@drawable/bg_txv_coin"
