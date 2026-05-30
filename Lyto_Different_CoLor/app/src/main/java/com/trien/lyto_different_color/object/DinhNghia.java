@@ -7,34 +7,7 @@ public class DinhNghia {
     public int soO = 7;
     public String mauNhieu ="#FF3399";
     public String mauIt ="#FF33CC";
-    private String arrMauNhieu[] = new String[]{
-            "#33CC33",
-            "#33CCFF",
-            "#FF99FF",
-            "#3399FF",
-            "#CC6699",
-            "#3300CC",
-            "#993300",
-            "#FF9933",
-            "#CC0066",
-            "#660099",
-            "#333300",
 
-    };
-
-    private String arrMauIt[] = new String[]{
-            "#33CC66",
-            "#33CCCC",
-            "#FF99CC",
-            "#3399CC",
-            "#CC6666",
-            "#3300FF",
-            "#993333",
-            "#FF9900",
-            "#CC0099",
-            "#6600CC",
-            "#333333",
-    };
     public int level = 1;
     public int timeTong = 30;
     public int timeChay = timeTong * 1000;
@@ -42,11 +15,25 @@ public class DinhNghia {
 
     public boolean hetGame = false;
 
-    public void layMauNgauNhien(){
+    public void layMauNgauNhien() {
         Random r = new Random();
-        int vt = r.nextInt(arrMauNhieu.length);
-        mauNhieu = arrMauNhieu[vt];
-        mauIt = arrMauIt[vt];
+        int red = r.nextInt(180) + 20;
+        int green = r.nextInt(180) + 20;
+        int blue = r.nextInt(180) + 20;
+
+        int delta = 60 - (level * 2);
+        if (delta < 5) {
+            delta = 5;
+        }
+        mauNhieu = String.format("#%02X%02X%02X", red, green, blue);
+        int redIt = red + delta;
+        int greenIt = green + delta;
+        int blueIt = blue + delta;
+
+        if (redIt > 255) redIt = 255;
+        if (greenIt > 255) greenIt = 255;
+        if (blueIt > 255) blueIt = 255;
+        mauIt = String.format("#%02X%02X%02X", redIt, greenIt, blueIt);
     }
 
     public void setLevel(){
