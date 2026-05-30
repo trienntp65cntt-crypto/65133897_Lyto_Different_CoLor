@@ -48,9 +48,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-        nguoiChoi = new InForNguoiChoi();
-    taoMau();
-
+        nguoiChoi = new InForNguoiChoi(this);
+        nguoiChoi.getData();
+        taoMau();
         adapter = new OMauAdapter(this, 0, arrOMau);
     }
 
@@ -98,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkMau(OMau o ){
         if(o.maMau.equals(dinhNghia.mauIt)){
-            nguoiChoi.tienNguoiChoi = nguoiChoi.tienNguoiChoi + 2;
             txvCoin.setText(""+nguoiChoi.tienNguoiChoi);
             dinhNghia.level++;
             taoMau();
@@ -106,6 +105,10 @@ public class MainActivity extends AppCompatActivity {
             dinhNghia.timeChay = dinhNghia.timeChay + dinhNghia.timeCong;
             demnguoc.cancel();
             upDateTime();
+
+            nguoiChoi.tienNguoiChoi = nguoiChoi.tienNguoiChoi + 2;
+            txvCoin.setText(""+nguoiChoi.tienNguoiChoi);
+            nguoiChoi.setData();
         }else {
             Toast.makeText(this,"false",Toast.LENGTH_SHORT).show();
         }
