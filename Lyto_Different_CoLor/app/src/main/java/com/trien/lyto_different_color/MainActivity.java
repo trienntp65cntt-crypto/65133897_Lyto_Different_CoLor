@@ -9,6 +9,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.Vibrator;
+import android.content.Context;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,6 +22,7 @@ import com.trien.lyto_different_color.object.OMau;
 
 import java.util.ArrayList;
 import java.util.Random;
+
 
 public class MainActivity extends AppCompatActivity {
     DinhNghia dinhNghia = new DinhNghia();
@@ -116,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
             txvCoin.setText(""+nguoiChoi.tienNguoiChoi);
             nguoiChoi.setData();
         }else {
-            Toast.makeText(this,"lêu lêu ",Toast.LENGTH_SHORT).show();
+            rungDienThoai();
         }
     }
 
@@ -168,5 +171,11 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("level",dinhNghia.level);
         startActivity(intent);
         finish();
+    }
+    private void rungDienThoai() {
+        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        if (vibrator != null) {
+            vibrator.vibrate(300);
+        }
     }
 }
