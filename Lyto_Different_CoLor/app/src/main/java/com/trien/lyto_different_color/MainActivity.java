@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void hieuUngCongTien(View viewXuatPhat) {
         final TextView tvPlus = new TextView(this);
-        tvPlus.setText("+2");
+        tvPlus.setText("+5");
         tvPlus.setTextColor(Color.YELLOW);
         tvPlus.setTextSize(25);
         tvPlus.setTypeface(null, Typeface.BOLD);
